@@ -22,10 +22,14 @@ try {
     console.log('Usando variáveis de ambiente fornecidas pelo host');
 }
 
-// Logs de depuração (remova ou comente em produção)
+// Logs de depuração
 console.log('NODE_ENV:', process.env.NODE_ENV);
 console.log('MONGODB_URI definido:', !!process.env.MONGODB_URI);
 console.log('FRONTEND_URL:', process.env.FRONTEND_URL);
+
+// URI MongoDB - garante que temos uma URI válida
+// IMPORTANTE: defina essa URI na Railway na variável MONGODB_URI
+const MONGODB_URI = process.env.MONGODB_URI || 'mongodb+srv://jisogomes333:khAvapesqxhWDxxt@cluster0.olcsf.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0';
 
 // Create Express app
 const app = express();
@@ -37,7 +41,7 @@ const server = http.createServer(app);
 const io = socketIo(server, {
     cors: {
         origin: process.env.NODE_ENV === 'production' 
-            ? [process.env.FRONTEND_URL, 'https://chatriobr.netlify.app'] 
+            ? [process.env.FRONTEND_URL || 'https://chatriobr.netlify.app', 'https://chatriobr.netlify.app'] 
             : '*',
         methods: ['GET', 'POST']
     }
@@ -49,7 +53,7 @@ app.set('io', io);
 // Middleware
 app.use(cors({
     origin: process.env.NODE_ENV === 'production' 
-        ? [process.env.FRONTEND_URL, 'https://chatriobr.netlify.app'] 
+        ? [process.env.FRONTEND_URL || 'https://chatriobr.netlify.app', 'https://chatriobr.netlify.app'] 
         : '*',
     methods: ['GET', 'POST', 'PUT', 'DELETE'],
     credentials: true
@@ -58,13 +62,31 @@ app.use(cors({
 app.use(express.json({limit: '10mb'}));
 app.use(express.urlencoded({extended: true, limit: '10mb'}));
 
-// Connect to MongoDB
-mongoose.connect(process.env.MONGODB_URI, {
+// Connect to MongoDB com tratamento de erro adicional
+console.log('Tentando conectar ao MongoDB com URI:', MONGODB_URI ? 'URI definida' : 'URI indefinida');
+
+mongoose.connect(MONGODB_URI, {
     useNewUrlParser: true,
     useUnifiedTopology: true
 })
 .then(() => console.log('Connected to MongoDB'))
-.catch(err => console.error('MongoDB connection error:', err));
+.catch(err => {
+    console.error('MongoDB connection error:', err);
+    console.error('Detalhes do erro de conexão MongoDB:');
+    console.error('MONGODB_URI definido?', !!MONGODB_URI);
+    console.error('Tipo da MONGODB_URI:', typeof MONGODB_URI);
+    
+    // Tentativa alternativa de conexão
+    console.log('Tentando conexão alternativa com MongoDB...');
+    const hardcodedURI = 'mongodb+srv://jisogomes333:khAvapesqxhWDxxt@cluster0.olcsf.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0';
+    
+    mongoose.connect(hardcodedURI, {
+        useNewUrlParser: true,
+        useUnifiedTopology: true
+    })
+    .then(() => console.log('Conectado ao MongoDB usando URI alternativa'))
+    .catch(altErr => console.error('Falha também na conexão alternativa:', altErr));
+});
 
 // Serve static files from frontend directory
 app.use(express.static(require('path').join(__dirname, '../frontend')));
