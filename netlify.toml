@@ -1,0 +1,8 @@
+[build]
+  base = "frontend/"
+  publish = "/"
+
+[[redirects]]
+  from = "/*"
+  to = "/login.html"
+  status = 200 

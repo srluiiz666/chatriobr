@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat Rio BR - Bate-Papo</title>
+    <link rel="stylesheet" href="css/chat.css">
+    <link rel="stylesheet" href="css/profile.css">
+    <link rel="stylesheet" href="css/adminModal.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="chat-container">
+        <!-- Sidebar com informações do usuário e lista de usuários online -->
+        <div class="chat-sidebar">
+            <div class="user-profile">
+                <img src="assets/images/logo.svg" alt="ChatRioBR Logo" class="logo" style="width: 40px; height: 40px; margin-bottom: 10px;">
+                <div class="user-profile-wrapper">
+                    <img src="assets/images/default-avatar-new.png" alt="Avatar" class="user-avatar" id="current-user-avatar">
+                    <button class="edit-profile-btn" id="editProfileBtn">
+                        <i class="fas fa-edit"></i>
+                    </button>
+                </div>
+                <div class="user-info">
+                    <h3 class="user-name" id="current-user-name">Carregando...</h3>
+                    <span class="user-role" id="user-role"></span>
+                </div>
+                <div class="theme-toggle">
+                    <button id="theme-toggle-btn" class="theme-toggle-btn">
+                        <i class="fas fa-moon"></i>
+                    </button>
+                </div>
+            </div>
+            
+            <div class="user-list">
+                <div id="online-users-list">
+                    <!-- Lista de usuários online será inserida aqui -->
+                </div>
+            </div>
+            
+            <div class="logout-container">
+                <button id="logout-btn" class="logout-btn">
+                    <i class="fas fa-sign-out-alt"></i> Sair
+                </button>
+            </div>
+        </div>
+
+        <!-- Área principal do chat -->
+        <div class="chat-main">
+            <div class="chat-header">
+                <div class="chat-header-title">Chat Rio BR</div>
+            </div>
+
+            <div class="messages-container" id="messages-container">
+                <!-- Mensagens serão inseridas aqui -->
+            </div>
+
+            <div class="chat-input-container">
+                <div class="chat-input-wrapper">
+                    <button class="emoji-button" id="emoji-button">
+                        <i class="far fa-smile"></i>
+                    </button>
+                    <input type="text" class="chat-input" id="message-input" placeholder="Digite sua mensagem...">
+                    <button class="send-button" id="send-button">
+                        <i class="fas fa-paper-plane"></i>
+                    </button>
+                </div>
+                <div class="emoji-picker hidden" id="emoji-picker">
+                    <!-- Emojis serão inseridos aqui -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal de edição de perfil -->
+    <div id="profileModal" class="modal hidden">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Editar Perfil</h2>
+                <button class="close-modal">&times;</button>
+            </div>
+            <form id="profileForm">
+                <div class="form-group">
+                    <label for="editUsername">Nome de usuário</label>
+                    <input type="text" id="editUsername" required>
+                </div>
+                <div class="form-group">
+                    <label for="profilePictureUpload">Foto de perfil</label>
+                    <input type="file" id="profilePictureUpload" accept="image/*">
+                </div>
+                <button type="submit" class="btn-primary">Salvar</button>
+            </form>
+        </div>
+    </div>
+
+    <script src="https://cdn.socket.io/4.6.1/socket.io.min.js"></script>
+    <script src="js/config.js"></script>
+    <script src="js/chat.js"></script>
+    <script src="js/profile.js"></script>
+    <script src="js/adminModal.js"></script>
+</body>
+</html>

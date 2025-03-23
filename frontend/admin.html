@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Painel de Administração - Chat Rio BR</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body data-theme="dark">
+    <div class="admin-container">
+        <header class="admin-header">
+            <div class="logo-container">
+                <img src="assets/images/logo.svg" alt="ChatRioBR Logo" class="logo">
+            </div>
+            <h1>Painel de Administração</h1>
+            <div class="admin-profile">
+                <img id="admin-avatar" src="assets/images/default-avatar-new.png" alt="Admin Avatar">
+                <span id="admin-username">Admin</span>
+                <button id="logout-btn" class="btn-logout">
+                    <i class="fas fa-sign-out-alt"></i> Sair
+                </button>
+            </div>
+        </header>
+
+        <main class="admin-main">
+            <div class="admin-sidebar">
+                <button class="tab-button active" data-tab="users">
+                    <i class="fas fa-users"></i> Usuários
+                </button>
+                <button class="tab-button" data-tab="chat">
+                    <i class="fas fa-comments"></i> Chat
+                </button>
+            </div>
+
+            <div class="admin-content">
+                <div id="users-panel" class="tab-content active">
+                    <div class="search-bar">
+                        <input type="text" id="user-search" placeholder="Buscar usuários...">
+                        <i class="fas fa-search"></i>
+                    </div>
+                    <div class="users-list" id="users-list">
+                        <!-- Users will be loaded here dynamically -->
+                    </div>
+                </div>
+
+                <div id="chat-panel" class="tab-content">
+                    <div class="chat-controls">
+                        <button id="clear-chat" class="btn-danger">
+                            <i class="fas fa-trash"></i> Limpar Chat
+                        </button>
+                    </div>
+                    <div class="chat-messages" id="chat-messages">
+                        <!-- Chat messages will be loaded here dynamically -->
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="js/config.js"></script>
+    <script src="js/admin.js"></script>
+</body>
+</html>

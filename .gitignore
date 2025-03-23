@@ -1,0 +1,29 @@
+# Dependências
+node_modules/
+
+# Arquivos de ambiente
+.env
+
+# Arquivos de log
+logs
+*.log
+npm-debug.log*
+
+# Diretórios de build/saída
+dist/
+build/
+out/
+
+# Arquivos temporários
+tmp/
+temp/
+
+# Arquivos do sistema operacional
+.DS_Store
+Thumbs.db
+
+# IDE e editores
+.idea/
+.vscode/
+*.sublime-project
+*.sublime-workspace 
