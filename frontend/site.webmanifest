@@ -1,0 +1,14 @@
+{
+  "name": "ChatRioBR",
+  "short_name": "ChatRioBR",
+  "icons": [
+    {
+      "src": "assets/images/favicon.svg",
+      "sizes": "32x32",
+      "type": "image/svg+xml"
+    }
+  ],
+  "theme_color": "#4F46E5",
+  "background_color": "#ffffff",
+  "display": "standalone"
+} 
