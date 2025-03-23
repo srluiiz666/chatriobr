@@ -2,6 +2,14 @@ const User = require('../models/User');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 
+// Definição de um JWT_SECRET padrão caso a variável de ambiente não esteja disponível
+const JWT_SECRET = process.env.JWT_SECRET || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoxMjMsImV4cCI6MTc0MTAzNDUyMCwiaWF0IjoxNzQxMDMwOTIwfQ.X1kj2muFPY-zWVqmbbcqi_a11CYX0bHT0Avn5EVzw3g';
+const JWT_EXPIRES_IN = process.env.JWT_EXPIRES_IN || '24h';
+
+// Log para debug
+console.log('JWT_SECRET definido:', !!JWT_SECRET);
+console.log('JWT_EXPIRES_IN:', JWT_EXPIRES_IN);
+
 // Função para registrar um novo usuário
 exports.register = async (req, res) => {
   try {
@@ -36,8 +44,8 @@ exports.register = async (req, res) => {
     // Gerar token JWT
     const token = jwt.sign(
       { userId: savedUser._id },
-      process.env.JWT_SECRET,
-      { expiresIn: process.env.JWT_EXPIRES_IN }
+      JWT_SECRET,
+      { expiresIn: JWT_EXPIRES_IN }
     );
 
     res.status(201).json({
@@ -60,37 +68,41 @@ exports.register = async (req, res) => {
 // Função para fazer login
 exports.login = async (req, res) => {
   try {
+    console.log('Tentativa de login:', req.body.email);
     const { email, password } = req.body;
 
     // Verificar se o usuário existe
     const user = await User.findOne({ email });
     if (!user) {
+      console.log('Usuário não encontrado:', email);
       return res.status(400).json({ message: 'Email ou senha incorretos.' });
     }
 
     // Verificar se a senha está correta
     const validPassword = await bcrypt.compare(password, user.password);
     if (!validPassword) {
+      console.log('Senha inválida para usuário:', email);
       return res.status(400).json({ message: 'Email ou senha incorretos.' });
     }
 
     // Gerar token JWT
     const token = jwt.sign(
       { userId: user._id },
-      process.env.JWT_SECRET,
-      { expiresIn: process.env.JWT_EXPIRES_IN }
+      JWT_SECRET,
+      { expiresIn: JWT_EXPIRES_IN }
     );
 
+    console.log('Login bem-sucedido para:', email);
+    
+    // Responder com o token e informações do usuário
     res.status(200).json({
-      message: 'Login realizado com sucesso!',
       token,
       user: {
         id: user._id,
         email: user.email,
         username: user.username,
         profilePicture: user.profilePicture,
-        role: user.role,
-        isMuted: user.isMuted
+        role: user.role
       }
     });
   } catch (error) {

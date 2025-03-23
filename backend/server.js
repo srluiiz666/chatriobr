@@ -40,24 +40,26 @@ const server = http.createServer(app);
 // Create Socket.IO instance
 const io = socketIo(server, {
     cors: {
-        origin: process.env.NODE_ENV === 'production' 
-            ? [process.env.FRONTEND_URL || 'https://chatriobr.netlify.app', 'https://chatriobr.netlify.app'] 
-            : '*',
-        methods: ['GET', 'POST']
+        origin: '*', // Permitir todas as origens
+        methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+        credentials: true
     }
 });
 
 // Make io instance available to our app
 app.set('io', io);
 
-// Middleware
+// Middleware CORS aprimorado
 app.use(cors({
-    origin: process.env.NODE_ENV === 'production' 
-        ? [process.env.FRONTEND_URL || 'https://chatriobr.netlify.app', 'https://chatriobr.netlify.app'] 
-        : '*',
-    methods: ['GET', 'POST', 'PUT', 'DELETE'],
+    origin: '*', // Permitir todas as origens 
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With'],
     credentials: true
 }));
+
+// Middleware para preflight OPTIONS
+app.options('*', cors());
+
 // Configure body size limit for profile pictures
 app.use(express.json({limit: '10mb'}));
 app.use(express.urlencoded({extended: true, limit: '10mb'}));
@@ -99,6 +101,32 @@ app.use('/api/admin', adminRoutes);
 
 // Serve index.html for root route
 app.get('/', (req, res) => {
+    res.sendFile(require('path').join(__dirname, '../frontend/login.html'));
+});
+
+// Rota para verificar se o servidor está funcionando
+app.get('/api/status', (req, res) => {
+    res.status(200).json({ 
+        status: 'online',
+        message: 'O servidor está funcionando corretamente',
+        env: process.env.NODE_ENV,
+        mongoDbConnected: mongoose.connection.readyState === 1
+    });
+});
+
+// Tratamento para rotas não encontradas
+app.use((req, res) => {
+    if (req.method === 'OPTIONS') {
+        // Responder às requisições preflight do CORS
+        return res.status(200).end();
+    }
+    
+    // Verificar se é uma solicitação de API
+    if (req.path.startsWith('/api/')) {
+        return res.status(404).json({ message: 'Endpoint não encontrado' });
+    }
+    
+    // Para solicitações que não sejam API, servir a página de login
     res.sendFile(require('path').join(__dirname, '../frontend/login.html'));
 });
 

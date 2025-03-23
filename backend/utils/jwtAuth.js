@@ -1,6 +1,9 @@
 const jwt = require('jsonwebtoken');
 const User = require('../models/User');
 
+// Definição de um JWT_SECRET padrão caso a variável de ambiente não esteja disponível
+const JWT_SECRET = process.env.JWT_SECRET || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoxMjMsImV4cCI6MTc0MTAzNDUyMCwiaWF0IjoxNzQxMDMwOTIwfQ.X1kj2muFPY-zWVqmbbcqi_a11CYX0bHT0Avn5EVzw3g';
+
 // Middleware para verificar o token JWT
 const verifyToken = async (req, res, next) => {
   try {
@@ -14,7 +17,7 @@ const verifyToken = async (req, res, next) => {
     const token = authHeader.split(' ')[1];
     
     // Verificar o token
-    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    const decoded = jwt.verify(token, JWT_SECRET);
     
     // Verificar se o usuário ainda existe
     const user = await User.findById(decoded.userId);
