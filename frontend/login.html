@@ -5,11 +5,32 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ChatRioBR - Login</title>
     <link rel="stylesheet" href="css/styles.css">
+    <style>
+        .logo-container {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 1rem;
+        }
+        .logo {
+            width: 120px;
+            height: 120px;
+            transition: transform 0.3s ease;
+        }
+        .logo:hover {
+            transform: scale(1.05);
+        }
+        h1 {
+            color: #4F46E5;
+            font-size: 2.2rem;
+            margin-bottom: 1.5rem;
+            text-shadow: 0 1px 2px rgba(0,0,0,0.1);
+        }
+    </style>
 </head>
 <body>
     <div class="login-container">
         <div class="logo-container">
-            <img src="assets/images/logo.svg" alt="ChatRioBR Logo" class="logo">
+            <img src="assets/images/new-logo.svg" alt="ChatRioBR Logo" class="logo">
         </div>
         <h1>ChatRioBR</h1>
         <form id="loginForm">

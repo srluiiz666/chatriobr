@@ -9,13 +9,24 @@
     <link rel="stylesheet" href="css/adminModal.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        .chat-header-logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .header-logo-img {
+            width: 32px;
+            height: 32px;
+        }
+    </style>
 </head>
 <body>
     <div class="chat-container">
         <!-- Sidebar com informações do usuário e lista de usuários online -->
         <div class="chat-sidebar">
             <div class="user-profile">
-                <img src="assets/images/logo.svg" alt="ChatRioBR Logo" class="logo" style="width: 40px; height: 40px; margin-bottom: 10px;">
+                <img src="assets/images/header-logo.svg" alt="ChatRioBR Logo" class="logo" style="width: 40px; height: 40px; margin-bottom: 10px;">
                 <div class="user-profile-wrapper">
                     <img src="assets/images/default-avatar-new.png" alt="Avatar" class="user-avatar" id="current-user-avatar">
                     <button class="edit-profile-btn" id="editProfileBtn">
@@ -49,7 +60,10 @@
         <!-- Área principal do chat -->
         <div class="chat-main">
             <div class="chat-header">
-                <div class="chat-header-title">Chat Rio BR</div>
+                <div class="chat-header-logo">
+                    <img src="assets/images/header-logo.svg" alt="ChatRioBR Logo" class="header-logo-img">
+                    <div class="chat-header-title">ChatRioBR</div>
+                </div>
             </div>
 
             <div class="messages-container" id="messages-container">

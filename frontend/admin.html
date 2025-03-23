@@ -6,14 +6,29 @@
     <title>Painel de Administração - Chat Rio BR</title>
     <link rel="stylesheet" href="css/styles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        .logo-container {
+            display: flex;
+            align-items: center;
+        }
+        .logo {
+            width: 50px;
+            height: 50px;
+            margin-right: 15px;
+        }
+        .admin-header h1 {
+            color: #4F46E5;
+            text-shadow: 0 1px 2px rgba(0,0,0,0.1);
+        }
+    </style>
 </head>
 <body data-theme="dark">
     <div class="admin-container">
         <header class="admin-header">
             <div class="logo-container">
-                <img src="assets/images/logo.svg" alt="ChatRioBR Logo" class="logo">
+                <img src="assets/images/header-logo.svg" alt="ChatRioBR Logo" class="logo">
+                <h1>Painel de Administração</h1>
             </div>
-            <h1>Painel de Administração</h1>
             <div class="admin-profile">
                 <img id="admin-avatar" src="assets/images/default-avatar-new.png" alt="Admin Avatar">
                 <span id="admin-username">Admin</span>
