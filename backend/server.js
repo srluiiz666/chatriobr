@@ -4,6 +4,7 @@ const socketIo = require('socket.io');
 const cors = require('cors');
 const dotenv = require('dotenv');
 const mongoose = require('mongoose');
+const path = require('path');
 
 // Import routes
 const authRoutes = require('./routes/authRoutes');
@@ -12,7 +13,19 @@ const userRoutes = require('./routes/userRoutes');
 const adminRoutes = require('./routes/adminRoutes');
 
 // Load environment variables
-dotenv.config({ path: __dirname + '/.env' });
+// Em produção, as variáveis já estarão definidas pelo Railway
+// Em desenvolvimento, carregamos do arquivo .env
+try {
+    dotenv.config({ path: path.resolve(__dirname, '.env') });
+    console.log('Ambiente carregado do arquivo .env local');
+} catch (error) {
+    console.log('Usando variáveis de ambiente fornecidas pelo host');
+}
+
+// Logs de depuração (remova ou comente em produção)
+console.log('NODE_ENV:', process.env.NODE_ENV);
+console.log('MONGODB_URI definido:', !!process.env.MONGODB_URI);
+console.log('FRONTEND_URL:', process.env.FRONTEND_URL);
 
 // Create Express app
 const app = express();
